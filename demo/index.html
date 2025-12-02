@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPortal Demo - Self-Hosted Blockchain Payment Gateway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .links {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .links a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1em;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result pre {
+            background: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        .error {
+            background: #fee;
+            border-left-color: #e53e3e;
+            color: #c53030;
+        }
+
+        .success {
+            background: #efe;
+            border-left-color: #38a169;
+            color: #2f855a;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .payment-links-list {
+            margin-top: 20px;
+        }
+
+        .link-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .link-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+
+        .checkbox-group {
+            margin-top: 10px;
+        }
+
+        .checkbox-group label {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            font-weight: normal;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .payment-option {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .payment-option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .api-key-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .api-key-input input {
+            flex: 1;
+        }
+
+        #qrcode {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #qrcode img {
+            max-width: 300px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💳 PayPortal Demo</h1>
+            <p class="subtitle">Self-Hosted Blockchain Payment Gateway with 402/403 Protocol</p>
+            <p class="subtitle" style="font-size: 0.9em; margin-top: 10px;">Multi-chain • Multi-currency • Subscriptions • QR Codes • Webhooks</p>
+        </header>
+
+        <div class="links">
+            <a href="/swagger" target="_blank">📚 API Documentation (Swagger)</a>
+            <a href="https://github.com/PayPortalWeb3/PP" target="_blank">💻 GitHub</a>
+            <a href="/" target="_blank">📊 Server Info</a>
+            <a href="#" onclick="showEndpoints(); return false;">🔌 Show All Endpoints</a>
+        </div>
+
+        <div id="endpoints-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; padding: 20px; overflow-y: auto;">
+            <div style="max-width: 900px; margin: 50px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>🔌 API Endpoints Reference</h2>
+                    <button class="btn btn-small" onclick="document.getElementById('endpoints-modal').style.display='none'">✕ Close</button>
+                </div>
+                
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <strong>🧪 Mock Mode Active:</strong> All chains are mocked - payments auto-confirm instantly!
+                </div>
+
+                <h3 style="margin-top: 20px; color: #667eea;">Public Endpoints (No Auth Required)</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em;">
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/</strong> - Server info</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/health</strong> - Health check</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/pay/:id</strong> - Access payment link (returns 402/403/302)</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/pay/:id/status</strong> - Check payment status</div>
+                    <div style="margin: 8px 0;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">POST</span> <strong>/pay/:id/confirm</strong> - Confirm payment with txHash</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/pay/:id/qr</strong> - Get QR code</div>
+                    <div style="margin: 8px 0;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">POST</span> <strong>/pay/:id/subscribe</strong> - Create/renew subscription</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/pay/:id/subscription?subscriber=ADDRESS</strong> - Get subscription status</div>
+                </div>
+
+                <h3 style="margin-top: 20px; color: #667eea;">Admin Endpoints (Require X-API-Key Header)</h3>
+                <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin: 10px 0;">
+                    <strong>🔑 API Key:</strong> <code style="background: white; padding: 2px 8px; border-radius: 4px;">your-secret-api-key</code>
+                </div>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em;">
+                    <div style="margin: 8px 0;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">POST</span> <strong>/api/links</strong> - Create payment link</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/api/links</strong> - List all links</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/api/links/:id</strong> - Get link details</div>
+                    <div style="margin: 8px 0;"><span style="background: #f44336; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">DEL</span> <strong>/api/links/:id</strong> - Disable link</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/api/payments</strong> - List all payments</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/api/subscriptions</strong> - List subscriptions</div>
+                    <div style="margin: 8px 0;"><span style="background: #4caf50; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">GET</span> <strong>/api/subscriptions/:id</strong> - Get subscription details</div>
+                    <div style="margin: 8px 0;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">POST</span> <strong>/api/subscriptions/:id/cancel</strong> - Cancel subscription</div>
+                    <div style="margin: 8px 0;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">POST</span> <strong>/api/subscriptions/:id/pause</strong> - Pause subscription</div>
+                    <div style="margin: 8px 0;"><span style="background: #2196f3; color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px;">POST</span> <strong>/api/subscriptions/:id/resume</strong> - Resume subscription</div>
+                </div>
+
+                <h3 style="margin-top: 20px; color: #667eea;">Mock Transaction Examples</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <p style="margin-bottom: 10px;"><strong>✨ In mock mode, ANY transaction hash will be accepted and auto-confirmed!</strong></p>
+                    <p style="margin: 5px 0;">Example Ethereum-style: <code style="background: white; padding: 2px 8px; border-radius: 4px;">0xMockTransactionHash123456789</code></p>
+                    <p style="margin: 5px 0;">Example Solana-style: <code style="background: white; padding: 2px 8px; border-radius: 4px;">5xK8MockSolanaSignature123456789</code></p>
+                    <p style="margin: 5px 0;">Simple mock: <code style="background: white; padding: 2px 8px; border-radius: 4px;">mock-tx-123</code></p>
+                    <p style="margin-top: 10px; color: #666; font-size: 0.9em;">💡 All mock transactions are instantly confirmed with no blockchain verification!</p>
+                </div>
+
+                <h3 style="margin-top: 20px; color: #667eea;">Mock Chains Available</h3>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <div style="margin: 8px 0;">🔗 <strong>Ethereum (Chain ID: 1)</strong> - Mock ETH blockchain</div>
+                    <div style="margin: 8px 0;">🔗 <strong>Polygon (Chain ID: 137)</strong> - Mock MATIC blockchain</div>
+                    <div style="margin: 8px 0;">🔗 <strong>BSC (Chain ID: 56)</strong> - Mock BNB blockchain</div>
+                    <div style="margin: 8px 0;">🔗 <strong>Solana (Chain ID: 101)</strong> - Mock SOL blockchain</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid" style="margin-bottom: 30px;">
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Paid Links</h3>
+                <p>Create payment links with automatic verification on your own RPC nodes</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💱</div>
+                <h3>Multi-Currency</h3>
+                <p>Accept ETH, SOL, MATIC, and more on a single payment link</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Subscriptions</h3>
+                <p>Recurring payments with flexible billing intervals</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>QR Codes</h3>
+                <p>Wallet deep links with Solana Pay & EIP-681</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="api-key-input">
+                <input type="password" id="apiKey" placeholder="Enter API Key (X-API-Key header)" value="your-secret-api-key">
+                <button class="btn" onclick="updateApiKey()">Set API Key</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('create')">Create Payment Link</button>
+                <button class="tab" onclick="switchTab('list')">View Links</button>
+                <button class="tab" onclick="switchTab('payments')">View Payments</button>
+                <button class="tab" onclick="switchTab('test')">Test Payment Flow</button>
+            </div>
+
+            <div id="create-tab" class="tab-content active">
+                <h2 style="margin-bottom: 20px;">Create Payment Link</h2>
+                
+                <div style="background: #e3f2fd; border-left: 4px solid #2196f3; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+                    <strong>🧪 Mock Mode Active</strong><br>
+                    <span style="color: #555;">All chains are mocked - any transaction will be auto-confirmed! Perfect for testing.</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Target URL *</label>
+                    <input type="url" id="targetUrl" placeholder="https://example.com/premium-content" value="https://example.com/premium-content">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="description" placeholder="Premium content access" value="Premium content access">
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Amount *</label>
+                        <input type="text" id="amount" placeholder="0.01" value="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Token Symbol *</label>
+                        <input type="text" id="tokenSymbol" placeholder="ETH" value="ETH">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Chain ID *</label>
+                        <input type="number" id="chainId" placeholder="1" value="1">
+                        <small>1=Ethereum, 137=Polygon, 56=BSC, 101=Solana</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Recipient Address *</label>
+                        <input type="text" id="recipientAddress" placeholder="0xYourWalletAddress" value="0xYourWalletAddress">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Max Uses (optional)</label>
+                        <input type="number" id="maxUses" placeholder="Leave empty for unlimited">
+                    </div>
+                    <div class="form-group">
+                        <label>Expires At (optional)</label>
+                        <input type="datetime-local" id="expiresAt">
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="enableMultiCurrency" onchange="toggleMultiCurrency()">
+                        Enable Multi-Currency (accept multiple tokens)
+                    </label>
+                    <label>
+                        <input type="checkbox" id="enableSubscription" onchange="toggleSubscription()">
+                        Enable Subscription (recurring payments)
+                    </label>
+                </div>
+
+                <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center;">
+                    <button type="button" class="btn btn-small" onclick="fillExampleData()">💡 Fill Example Data</button>
+                    <button type="button" class="btn btn-small" onclick="clearForm()" style="background: #e0e0e0; color: #333;">🗑️ Clear Form</button>
+                    <small style="color: #666;">Quick actions</small>
+                </div>
+
+                <div id="multiCurrencySection" style="display: none; margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px;">Additional Payment Options</h3>
+                    <div id="paymentOptions"></div>
+                    <button class="btn btn-small" onclick="addPaymentOption()">+ Add Payment Option</button>
+                </div>
+
+                <div id="subscriptionSection" style="display: none; margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px;">Subscription Configuration</h3>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Interval *</label>
+                            <select id="subInterval">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly" selected>Monthly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Interval Count</label>
+                            <input type="number" id="subIntervalCount" value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Grace Period (hours)</label>
+                            <input type="number" id="subGracePeriod" value="24" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Trial Days</label>
+                            <input type="number" id="subTrialDays" value="0" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Cycles (optional)</label>
+                        <input type="number" id="subMaxCycles" placeholder="Leave empty for unlimited">
+                    </div>
+                </div>
+
+                <button class="btn" onclick="createLink()" style="margin-top: 20px;">
+                    Create Payment Link
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → POST /api/links
+                    </small>
+                </button>
+
+                <div id="createResult"></div>
+            </div>
+
+            <div id="list-tab" class="tab-content">
+                <h2 style="margin-bottom: 20px;">Payment Links</h2>
+                <button class="btn" onclick="loadLinks()">
+                    Refresh Links
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → GET /api/links
+                    </small>
+                </button>
+                <div id="linksList" class="payment-links-list"></div>
+            </div>
+
+            <div id="payments-tab" class="tab-content">
+                <h2 style="margin-bottom: 20px;">Payments</h2>
+                <button class="btn" onclick="loadPayments()">
+                    Refresh Payments
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → GET /api/payments
+                    </small>
+                </button>
+                <div id="paymentsList" class="payment-links-list"></div>
+            </div>
+
+            <div id="test-tab" class="tab-content">
+                <h2 style="margin-bottom: 20px;">Test Payment Flow</h2>
+                <p style="margin-bottom: 20px;">Test the complete payment flow with a payment link.</p>
+                
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+                    <strong>📝 How to Test:</strong><br>
+                    <span style="color: #555;">1. Use a link ID from the "View Links" tab or create a new one<br>
+                    2. Check link status (should return 402 Payment Required)<br>
+                    3. Generate QR code<br>
+                    4. Confirm payment with any mock transaction hash<br>
+                    5. Verify payment status (should now be paid!)</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Payment Link ID</label>
+                    <input type="text" id="testLinkId" placeholder="Enter payment link ID">
+                </div>
+
+                <button class="btn" onclick="testPaymentLink()" style="margin-bottom: 20px;">
+                    1. Check Link Status
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → GET /pay/:id (Returns 402 Payment Required)
+                    </small>
+                </button>
+                <div id="testResult1"></div>
+
+                <button class="btn" onclick="testGetQR()" style="margin-bottom: 20px;">
+                    2. Get QR Code
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → GET /pay/:id/qr?format=json
+                    </small>
+                </button>
+                <div id="qrcode"></div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Transaction Hash (for confirmation)</label>
+                    <input type="text" id="testTxHash" placeholder="Enter any mock transaction hash (e.g., 0xMock123...)" value="0xMockTransactionHash123456789">
+                    <small style="color: #666; margin-top: 5px; display: block;">💡 In mock mode, ANY transaction hash will be accepted and auto-confirmed!</small>
+                </div>
+
+                <button class="btn" onclick="testConfirm()">
+                    3. Confirm Payment
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → POST /pay/:id/confirm with {"txHash": "..."}
+                    </small>
+                </button>
+                <div id="testResult2"></div>
+
+                <button class="btn" onclick="testPaymentStatus()" style="margin-top: 20px;">
+                    4. Check Payment Status
+                    <small style="display: block; font-size: 0.8em; opacity: 0.9; font-weight: normal; margin-top: 4px;">
+                        → GET /pay/:id/status (Should show paid=true)
+                    </small>
+                </button>
+                <div id="testResult3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let API_KEY = 'your-secret-api-key';
+        const API_BASE = window.location.origin;
+        let paymentOptionCount = 0;
+
+        // Auto-load links on page load to get the sample link
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch(`${API_BASE}/api/links`, {
+                    headers: { 'X-API-Key': API_KEY },
+                });
+                const result = await response.json();
+                if (response.ok && result.links && result.links.length > 0) {
+                    // Pre-fill test link ID with the first link
+                    const firstLink = result.links[0];
+                    document.getElementById('testLinkId').value = firstLink.id;
+                    document.getElementById('testLinkId').placeholder = `Try: ${firstLink.id}`;
+                }
+            } catch (error) {
+                console.log('Could not auto-load sample link:', error);
+            }
+        });
+
+        function updateApiKey() {
+            API_KEY = document.getElementById('apiKey').value;
+            showResult('createResult', 'API Key updated!', 'success');
+        }
+
+        function fillExampleData() {
+            // Enable multi-currency
+            document.getElementById('enableMultiCurrency').checked = true;
+            toggleMultiCurrency();
+            
+            // Fill first payment option if exists or create one
+            if (paymentOptionCount === 0) {
+                addPaymentOption();
+            }
+            document.getElementById('po1_token').value = 'SOL';
+            document.getElementById('po1_chain').value = '101';
+            document.getElementById('po1_amount').value = '0.5';
+            
+            // Add second payment option
+            if (paymentOptionCount === 1) {
+                addPaymentOption();
+            }
+            document.getElementById('po2_token').value = 'MATIC';
+            document.getElementById('po2_chain').value = '137';
+            document.getElementById('po2_amount').value = '20';
+            
+            showResult('createResult', '✅ Example data filled! Ready to create a multi-currency link.', 'success');
+        }
+
+        function clearForm() {
+            // Reset main form
+            document.getElementById('targetUrl').value = 'https://example.com/premium-content';
+            document.getElementById('description').value = 'Premium content access';
+            document.getElementById('amount').value = '0.01';
+            document.getElementById('tokenSymbol').value = 'ETH';
+            document.getElementById('chainId').value = '1';
+            document.getElementById('recipientAddress').value = '0xYourWalletAddress';
+            document.getElementById('maxUses').value = '';
+            document.getElementById('expiresAt').value = '';
+            
+            // Reset checkboxes
+            document.getElementById('enableMultiCurrency').checked = false;
+            document.getElementById('enableSubscription').checked = false;
+            toggleMultiCurrency();
+            toggleSubscription();
+            
+            // Clear payment options
+            document.getElementById('paymentOptions').innerHTML = '';
+            paymentOptionCount = 0;
+            
+            // Clear result
+            document.getElementById('createResult').innerHTML = '';
+            
+            showResult('createResult', '✅ Form cleared!', 'success');
+            setTimeout(() => {
+                document.getElementById('createResult').innerHTML = '';
+            }, 2000);
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + '-tab').classList.add('active');
+
+            if (tab === 'list') loadLinks();
+            if (tab === 'payments') loadPayments();
+        }
+
+        function toggleMultiCurrency() {
+            const enabled = document.getElementById('enableMultiCurrency').checked;
+            document.getElementById('multiCurrencySection').style.display = enabled ? 'block' : 'none';
+            if (enabled && paymentOptionCount === 0) {
+                addPaymentOption();
+            }
+        }
+
+        function toggleSubscription() {
+            const enabled = document.getElementById('enableSubscription').checked;
+            document.getElementById('subscriptionSection').style.display = enabled ? 'block' : 'none';
+        }
+
+        function addPaymentOption() {
+            const container = document.getElementById('paymentOptions');
+            const id = ++paymentOptionCount;
+            const div = document.createElement('div');
+            div.className = 'payment-option';
+            div.id = 'paymentOption' + id;
+            div.innerHTML = `
+                <div class="payment-option-header">
+                    <strong>Payment Option ${id}</strong>
+                    <button class="btn btn-small" onclick="removePaymentOption(${id})">Remove</button>
+                </div>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Token Symbol</label>
+                        <input type="text" id="po${id}_token" placeholder="SOL">
+                    </div>
+                    <div class="form-group">
+                        <label>Chain ID</label>
+                        <input type="number" id="po${id}_chain" placeholder="101">
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="text" id="po${id}_amount" placeholder="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label>Recipient (optional)</label>
+                        <input type="text" id="po${id}_recipient" placeholder="Leave empty to use default">
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function removePaymentOption(id) {
+            document.getElementById('paymentOption' + id).remove();
+        }
+
+        async function createLink() {
+            // Validate required fields
+            const targetUrl = document.getElementById('targetUrl').value;
+            const amount = document.getElementById('amount').value;
+            const tokenSymbol = document.getElementById('tokenSymbol').value;
+            const chainId = document.getElementById('chainId').value;
+            const recipientAddress = document.getElementById('recipientAddress').value;
+            
+            if (!targetUrl || !amount || !tokenSymbol || !chainId || !recipientAddress) {
+                showResult('createResult', '❌ Please fill in all required fields (marked with *)!', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const createBtn = event.target;
+            const originalText = createBtn.textContent;
+            createBtn.disabled = true;
+            createBtn.textContent = 'Creating...';
+            
+            const data = {
+                targetUrl,
+                amount,
+                tokenSymbol,
+                chainId: parseInt(chainId),
+                recipientAddress,
+                description: document.getElementById('description').value || undefined,
+                maxUses: parseInt(document.getElementById('maxUses').value) || undefined,
+                expiresAt: document.getElementById('expiresAt').value || undefined,
+            };
+
+            // Add payment options if enabled
+            if (document.getElementById('enableMultiCurrency').checked) {
+                const options = [];
+                for (let i = 1; i <= paymentOptionCount; i++) {
+                    const token = document.getElementById(`po${i}_token`);
+                    if (token && token.value) {
+                        options.push({
+                            tokenSymbol: token.value,
+                            chainId: parseInt(document.getElementById(`po${i}_chain`).value),
+                            amount: document.getElementById(`po${i}_amount`).value,
+                            recipientAddress: document.getElementById(`po${i}_recipient`).value || undefined,
+                        });
+                    }
+                }
+                if (options.length > 0) {
+                    data.paymentOptions = options;
+                }
+            }
+
+            // Add subscription config if enabled
+            if (document.getElementById('enableSubscription').checked) {
+                data.subscription = {
+                    interval: document.getElementById('subInterval').value,
+                    intervalCount: parseInt(document.getElementById('subIntervalCount').value),
+                    gracePeriodHours: parseInt(document.getElementById('subGracePeriod').value),
+                    trialDays: parseInt(document.getElementById('subTrialDays').value),
+                    maxCycles: parseInt(document.getElementById('subMaxCycles').value) || undefined,
+                };
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/links`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY,
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    showResult('createResult', `
+                        <div class="success">
+                            <h3>✅ Payment Link Created!</h3>
+                            <p><strong>Link ID:</strong> ${result.link.id}</p>
+                            <p><strong>URL:</strong> <a href="${result.link.url}" target="_blank">${result.link.url}</a></p>
+                            ${result.link.subscription ? `<p><strong>Subscribe URL:</strong> <a href="${result.link.subscription.subscribeUrl}" target="_blank">${result.link.subscription.subscribeUrl}</a></p>` : ''}
+                            <pre>${JSON.stringify(result, null, 2)}</pre>
+                        </div>
+                    `);
+                    // Auto-populate test tab with new link ID
+                    document.getElementById('testLinkId').value = result.link.id;
+                } else {
+                    showResult('createResult', `Error: ${JSON.stringify(result, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                showResult('createResult', `Error: ${error.message}`, 'error');
+            } finally {
+                // Restore button state
+                createBtn.disabled = false;
+                createBtn.textContent = originalText;
+            }
+        }
+
+        async function loadLinks() {
+            document.getElementById('linksList').innerHTML = '<p style="text-align: center; padding: 20px; color: #667eea;">⏳ Loading links...</p>';
+            try {
+                const response = await fetch(`${API_BASE}/api/links`, {
+                    headers: { 'X-API-Key': API_KEY },
+                });
+                const result = await response.json();
+                
+                if (response.ok && result.links) {
+                    let html = '';
+                    result.links.forEach(link => {
+                        html += `
+                            <div class="link-item">
+                                <strong>ID:</strong> ${link.id} 
+                                <button class="btn btn-small" onclick="navigator.clipboard.writeText('${link.id}'); alert('Link ID copied!')" style="margin-left: 10px; padding: 4px 8px; font-size: 0.8em;">📋 Copy ID</button>
+                                <button class="btn btn-small" onclick="document.getElementById('testLinkId').value='${link.id}'; document.querySelectorAll('.tab')[3].click();" style="margin-left: 5px; padding: 4px 8px; font-size: 0.8em;">🧪 Test This</button>
+                                <br>
+                                <strong>URL:</strong> <a href="${link.url}" target="_blank">${link.url}</a><br>
+                                <strong>Target:</strong> ${link.targetUrl}<br>
+                                <strong>Price:</strong> ${link.price.amount} ${link.price.tokenSymbol} (Chain ${link.price.chainId})<br>
+                                ${link.paymentOptions ? `<strong>Payment Options:</strong> ${link.paymentOptions.length} additional currencies<br>` : ''}
+                                ${link.subscription ? `<strong>Subscription:</strong> ${link.subscription.interval} billing<br>` : ''}
+                                <strong>Status:</strong> <span style="color: ${link.status === 'active' ? '#38a169' : '#e53e3e'}">${link.status}</span><br>
+                                <strong>Uses:</strong> ${link.usesCount || 0}${link.maxUses ? ` / ${link.maxUses}` : ' / unlimited'}<br>
+                                <strong>Created:</strong> ${new Date(link.createdAt).toLocaleString()}
+                            </div>
+                        `;
+                    });
+                    document.getElementById('linksList').innerHTML = html || '<p>No links found.</p>';
+                } else {
+                    document.getElementById('linksList').innerHTML = `<div class="error">Error loading links: ${JSON.stringify(result)}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('linksList').innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+
+        async function loadPayments() {
+            document.getElementById('paymentsList').innerHTML = '<p style="text-align: center; padding: 20px; color: #667eea;">⏳ Loading payments...</p>';
+            try {
+                const response = await fetch(`${API_BASE}/api/payments`, {
+                    headers: { 'X-API-Key': API_KEY },
+                });
+                const result = await response.json();
+                
+                if (response.ok && result.payments) {
+                    let html = '';
+                    result.payments.forEach(payment => {
+                        html += `
+                            <div class="link-item">
+                                <strong>ID:</strong> ${payment.id}<br>
+                                <strong>Link ID:</strong> ${payment.paymentLinkId}<br>
+                                <strong>Chain:</strong> ${payment.chainId}<br>
+                                <strong>TX Hash:</strong> ${payment.txHash}<br>
+                                <strong>From:</strong> ${payment.fromAddress}<br>
+                                <strong>Amount:</strong> ${payment.amount}<br>
+                                <strong>Confirmed:</strong> ${payment.confirmed ? '✅' : '⏳'}<br>
+                                <strong>Created:</strong> ${new Date(payment.createdAt).toLocaleString()}
+                            </div>
+                        `;
+                    });
+                    document.getElementById('paymentsList').innerHTML = html || '<p>No payments found.</p>';
+                } else {
+                    document.getElementById('paymentsList').innerHTML = `<div class="error">Error loading payments: ${JSON.stringify(result)}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('paymentsList').innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testPaymentLink() {
+            const linkId = document.getElementById('testLinkId').value;
+            if (!linkId) {
+                showResult('testResult1', 'Please enter a payment link ID', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/pay/${linkId}`);
+                const result = await response.json();
+                
+                showResult('testResult1', `
+                    <strong>Status:</strong> ${response.status}<br>
+                    <strong>Response:</strong>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `, response.status === 402 ? '' : 'error');
+            } catch (error) {
+                showResult('testResult1', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetQR() {
+            const linkId = document.getElementById('testLinkId').value;
+            if (!linkId) {
+                document.getElementById('qrcode').innerHTML = '<div class="error">Please enter a payment link ID</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/pay/${linkId}/qr?format=json`);
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('qrcode').innerHTML = `
+                        <h3>QR Code</h3>
+                        <img src="${result.qrCodeDataUrl}" alt="Payment QR Code">
+                        <p><strong>Payment URI:</strong></p>
+                        <p style="word-break: break-all; font-size: 0.9em;">${result.paymentUri}</p>
+                    `;
+                } else {
+                    document.getElementById('qrcode').innerHTML = `<div class="error">Error: ${JSON.stringify(result)}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('qrcode').innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testConfirm() {
+            const linkId = document.getElementById('testLinkId').value;
+            const txHash = document.getElementById('testTxHash').value;
+            
+            if (!linkId || !txHash) {
+                showResult('testResult2', 'Please enter both link ID and transaction hash', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/pay/${linkId}/confirm`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ txHash }),
+                });
+                const result = await response.json();
+                
+                showResult('testResult2', `
+                    <strong>Status:</strong> ${response.status}<br>
+                    <strong>Response:</strong>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `, result.success ? 'success' : 'error');
+            } catch (error) {
+                showResult('testResult2', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPaymentStatus() {
+            const linkId = document.getElementById('testLinkId').value;
+            if (!linkId) {
+                showResult('testResult3', 'Please enter a payment link ID', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/pay/${linkId}/status`);
+                const result = await response.json();
+                
+                showResult('testResult3', `
+                    <strong>Status:</strong> ${response.status}<br>
+                    <strong>Paid:</strong> ${result.paid ? '✅ Yes' : '❌ No'}<br>
+                    <strong>Response:</strong>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `, result.paid ? 'success' : '');
+            } catch (error) {
+                showResult('testResult3', `Error: ${error.message}`, 'error');
+            }
+        }
+
+        function showResult(elementId, content, className = '') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="result ${className}">${content}</div>`;
+        }
+
+        function showEndpoints() {
+            document.getElementById('endpoints-modal').style.display = 'block';
+        }
+
+        // Add endpoint call indicator
+        function logApiCall(method, endpoint, description) {
+            console.log(`%c${method} ${endpoint}`, 'background: #667eea; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold', description);
+        }
+
+        // Enhance all API calls with logging
+        const originalCreateLink = createLink;
+        createLink = async function() {
+            logApiCall('POST', '/api/links', 'Creating payment link...');
+            return originalCreateLink.apply(this, arguments);
+        };
+    </script>
+</body>
+</html>
+
