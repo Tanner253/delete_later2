@@ -456,6 +456,8 @@ body {
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-width: 100%;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .code-header {
@@ -494,6 +496,8 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .code-content pre, .code-block pre {
@@ -511,8 +515,7 @@ body {
 .code-content code, .code-block code {
     color: #e0e0e0;
     white-space: pre;
-    display: inline-block;
-    min-width: 100%;
+    display: inline;
 }
 
 .code-inline {
@@ -928,6 +931,9 @@ body {
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .code-tabs-nav {
@@ -1384,45 +1390,62 @@ body {
     }
     
     .code-preview, .code-snippet {
-        margin-left: -1.75rem;
-        margin-right: -1.75rem;
+        margin-left: calc(-0.875rem - 1px);
+        margin-right: calc(-0.875rem - 1px);
         border-radius: 0;
         border-left: none;
         border-right: none;
-        max-width: calc(100vw);
-        width: calc(100vw);
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
     }
     
     .code-content, .code-block > div:not(.code-header) {
         padding: 0.75rem;
-        font-size: 0.6875rem;
+        font-size: 0.625rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .code-content pre, .code-block pre {
-        font-size: 0.6875rem;
+        font-size: 0.625rem;
         line-height: 1.4;
-        min-width: max-content;
+        min-width: 0;
+        max-width: 100%;
+        white-space: pre;
+        word-break: normal;
+        overflow-wrap: normal;
     }
     
     .code-inline {
-        font-size: 0.6875rem;
+        font-size: 0.625rem;
         padding: 0.625rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-left: -1.75rem;
-        margin-right: -1.75rem;
+        margin-left: calc(-0.875rem - 1px);
+        margin-right: calc(-0.875rem - 1px);
         border-radius: 0;
         border-left: none;
         border-right: none;
-        max-width: calc(100vw);
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
     }
     
     .code-inline pre {
-        font-size: 0.6875rem;
+        font-size: 0.625rem;
         line-height: 1.4;
-        min-width: max-content;
+        min-width: 0;
+        max-width: 100%;
+        white-space: pre;
+        word-break: normal;
+        overflow-wrap: normal;
+    }
+    
+    .code-inline code {
+        font-size: 0.625rem;
     }
     
     .token-visual {
@@ -1512,12 +1535,20 @@ body {
     }
     
     .code-tabs-container {
-        margin-left: -1.75rem;
-        margin-right: -1.75rem;
+        margin-left: calc(-0.875rem - 1px);
+        margin-right: calc(-0.875rem - 1px);
         border-radius: 0;
         border-left: none;
         border-right: none;
-        max-width: calc(100vw);
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
+    }
+    
+    .code-tab-panel .code-content,
+    .code-tab-panel .code-block > div:not(.code-header) {
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .code-tabs-nav {
@@ -1684,33 +1715,41 @@ body {
     
     .code-snippet {
         margin-top: 1rem;
-        margin-left: -1.75rem;
-        margin-right: -1.75rem;
+        margin-left: calc(-0.875rem - 1px);
+        margin-right: calc(-0.875rem - 1px);
         border-radius: 0;
         border-left: none;
         border-right: none;
-        max-width: calc(100vw);
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
     }
     
     .code-snippet .code-header {
-        padding: 0.75rem;
+        padding: 0.625rem 0.75rem;
     }
     
     .code-snippet .code-title {
-        font-size: 0.6875rem;
+        font-size: 0.625rem;
     }
     
     .code-snippet .code-content {
         padding: 0.75rem;
+        box-sizing: border-box;
+        width: 100%;
+        overflow-x: auto;
     }
     
     .code-snippet pre {
-        font-size: 0.6875rem !important;
+        font-size: 0.625rem !important;
         line-height: 1.4;
+        min-width: 0;
+        max-width: 100%;
+        white-space: pre;
     }
     
     .code-snippet code {
-        font-size: 0.6875rem !important;
+        font-size: 0.625rem !important;
     }
     
     .workflow {
@@ -1736,31 +1775,47 @@ body {
     
     .code-content, .code-block > div:not(.code-header) {
         padding: 0.625rem;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .code-content pre, .code-block pre {
         font-size: 0.5625rem;
         line-height: 1.35;
+        min-width: 0;
+        max-width: 100%;
+        white-space: pre;
     }
     
     .code-inline {
-        padding: 0.5rem;
-        margin-left: -1.25rem;
-        margin-right: -1.25rem;
+        padding: 0.5rem 0.625rem;
+        margin-left: calc(-0.625rem - 1px);
+        margin-right: calc(-0.625rem - 1px);
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
     }
     
     .code-inline pre {
         font-size: 0.5625rem;
+        min-width: 0;
+        max-width: 100%;
+    }
+    
+    .code-inline code {
+        font-size: 0.5625rem;
     }
     
     .code-preview, .code-snippet {
-        margin-left: -1.25rem;
-        margin-right: -1.25rem;
-        max-width: calc(100vw);
+        margin-left: calc(-0.625rem - 1px);
+        margin-right: calc(-0.625rem - 1px);
+        max-width: 100vw;
+        width: 100vw;
+        box-sizing: border-box;
     }
     
     .code-snippet .code-header {
-        padding: 0.625rem;
+        padding: 0.5rem 0.625rem;
     }
     
     .code-snippet .code-title {
@@ -1769,11 +1824,15 @@ body {
     
     .code-snippet .code-content {
         padding: 0.625rem;
+        box-sizing: border-box;
+        width: 100%;
     }
     
     .code-snippet pre {
         font-size: 0.5625rem !important;
         line-height: 1.35;
+        min-width: 0;
+        max-width: 100%;
     }
     
     .code-snippet code {

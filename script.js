@@ -395,48 +395,43 @@ function initCodeTabs() {
     });
 }
 
-// Placeholder URLs (to be updated)
-document.getElementById('x-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add X/Twitter URL
-    console.log('X link clicked - URL to be added');
-});
+// External links
+const GITHUB_URL = 'https://github.com/PayPortalWeb3/PP';
+const X_URL = '#'; // TODO: Add X/Twitter URL when available
+const PUMPFUN_URL = '#'; // TODO: Add Pump.fun URL when available
 
-document.getElementById('github-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add GitHub URL
-    console.log('GitHub link clicked - URL to be added');
+// Navigation links
+document.getElementById('x-link').href = X_URL;
+document.getElementById('github-link').href = GITHUB_URL;
+document.getElementById('pumpfun-link').href = PUMPFUN_URL;
+
+// Footer links
+document.getElementById('footer-x-link').href = X_URL;
+document.getElementById('footer-github-link').href = GITHUB_URL;
+document.getElementById('footer-pumpfun-link').href = PUMPFUN_URL;
+
+// CTA buttons
+document.getElementById('github-cta').href = GITHUB_URL;
+document.getElementById('pumpfun-cta').href = PUMPFUN_URL;
+
+// Remove click event listeners since we're using actual hrefs now
+document.getElementById('x-link').addEventListener('click', (e) => {
+    if (!X_URL || X_URL === '#') {
+        e.preventDefault();
+        console.log('X/Twitter link not yet configured');
+    }
 });
 
 document.getElementById('pumpfun-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add Pump.fun URL
-    console.log('Pump.fun link clicked - URL to be added');
-});
-
-// Footer links
-document.getElementById('footer-x-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add X/Twitter URL
-});
-
-document.getElementById('footer-github-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add GitHub URL
-});
-
-document.getElementById('footer-pumpfun-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add Pump.fun URL
-});
-
-// CTA buttons
-document.getElementById('github-cta').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add GitHub URL
+    if (!PUMPFUN_URL || PUMPFUN_URL === '#') {
+        e.preventDefault();
+        console.log('Pump.fun link not yet configured');
+    }
 });
 
 document.getElementById('pumpfun-cta').addEventListener('click', (e) => {
-    e.preventDefault();
-    // TODO: Add Pump.fun URL
+    if (!PUMPFUN_URL || PUMPFUN_URL === '#') {
+        e.preventDefault();
+        console.log('Pump.fun link not yet configured');
+    }
 });
