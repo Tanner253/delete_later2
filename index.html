@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="description" content="Pay Portal - Self-hosted payment gateway with native $PP token integration. Accept crypto payments across multiple chains with automatic verification.">
     <title>Pay Portal ($PP) - Whitepaper</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +20,12 @@
                 <span class="logo-icon">$PP</span>
                 <span class="logo-text">Pay Portal</span>
             </div>
-            <div class="nav-links">
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-links" id="nav-links">
                 <a href="#" class="nav-icon" id="x-link" aria-label="X (Twitter)">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -236,9 +243,13 @@ server.start();</code></pre>
                     </p>
                     <div class="code-snippet">
                         <div class="code-header">
+                            <div class="code-dots">
+                                <span></span><span></span><span></span>
+                            </div>
                             <span class="code-title">Discount Configuration</span>
                         </div>
-                        <pre><code class="language-javascript">const server = createServer({
+                        <div class="code-content">
+                            <pre><code class="language-javascript">const server = createServer({
   // ... other config
   portalToken: {
     rpcUrl: 'https://api.mainnet-beta.solana.com',
@@ -254,6 +265,7 @@ server.start();</code></pre>
     ]
   }
 });</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>
