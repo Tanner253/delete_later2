@@ -397,8 +397,8 @@ function initCodeTabs() {
 
 // External links
 const GITHUB_URL = 'https://github.com/PayPortalWeb3/PP';
-const X_URL = '#'; // TODO: Add X/Twitter URL when available
-const PUMPFUN_URL = '#'; // TODO: Add Pump.fun URL when available
+const X_URL = 'https://x.com/i/communities/1995741831796015176';
+const PUMPFUN_URL = 'https://pump.fun/coin/Axa4Ebtf7Q2yvyQ8dMidu6Qf17yZtsutAKEuKgdKpump';
 
 // Navigation links
 document.getElementById('x-link').href = X_URL;
@@ -415,23 +415,4 @@ document.getElementById('github-cta').href = GITHUB_URL;
 document.getElementById('pumpfun-cta').href = PUMPFUN_URL;
 
 // Remove click event listeners since we're using actual hrefs now
-document.getElementById('x-link').addEventListener('click', (e) => {
-    if (!X_URL || X_URL === '#') {
-        e.preventDefault();
-        console.log('X/Twitter link not yet configured');
-    }
-});
-
-document.getElementById('pumpfun-link').addEventListener('click', (e) => {
-    if (!PUMPFUN_URL || PUMPFUN_URL === '#') {
-        e.preventDefault();
-        console.log('Pump.fun link not yet configured');
-    }
-});
-
-document.getElementById('pumpfun-cta').addEventListener('click', (e) => {
-    if (!PUMPFUN_URL || PUMPFUN_URL === '#') {
-        e.preventDefault();
-        console.log('Pump.fun link not yet configured');
-    }
-});
+// All external links are now configured - no click prevention needed
