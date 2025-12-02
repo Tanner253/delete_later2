@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Portal ($PP) - Whitepaper</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">$PP</span>
+                <span class="logo-text">Pay Portal</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-icon" id="x-link" aria-label="X (Twitter)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+                <a href="#" class="nav-icon" id="github-link" aria-label="GitHub">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="#" class="nav-icon" id="pumpfun-link" aria-label="Pump.fun Chart">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 7h2v8H7V7zm4 4h2v4h-2v-4zm4-2h2v10h-2V9z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Background -->
+    <section class="hero" id="hero">
+        <canvas id="canvas-3d"></canvas>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Production Ready</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="gradient-text">Pay Portal</span>
+                <br>
+                The Future of Web3 Payments
+            </h1>
+            <p class="hero-subtitle">
+                Self-hosted payment gateway with native $PP token integration.<br>
+                Accept crypto payments across multiple chains with automatic verification.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">Multi-Chain</div>
+                    <div class="stat-label">EVM + Solana</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">Multi-Currency</div>
+                    <div class="stat-label">ETH, SOL, USDC, $PP</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">Self-Hosted</div>
+                    <div class="stat-label">Full Control</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="section intro-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">What is Pay Portal?</h2>
+            </div>
+            <div class="content-grid">
+                <div class="content-text">
+                    <p class="lead">
+                        Pay Portal is a <strong>self-hosted payment gateway</strong> that enables merchants to accept cryptocurrency payments through a simple, standardized protocol. Built on the HTTP 402 Payment Required standard, it provides automatic blockchain payment verification, multi-chain support, and native integration with the $PP token.
+                    </p>
+                    <p>
+                        Unlike traditional payment processors, Pay Portal gives you complete control. You host your own server, use your own RPC nodes, and maintain full custody of all funds. No intermediaries, no platform fees—just direct blockchain payments with instant verification.
+                    </p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🔒</div>
+                            <div>
+                                <strong>Self-Hosted</strong>
+                                <p>Run your own server with full control</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⛓️</div>
+                            <div>
+                                <strong>Multi-Chain</strong>
+                                <p>Ethereum, Polygon, Solana, and more</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💱</div>
+                            <div>
+                                <strong>Multi-Currency</strong>
+                                <p>Accept multiple tokens per payment link</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔄</div>
+                            <div>
+                                <strong>Subscriptions</strong>
+                                <p>Recurring payments with automatic billing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-visual">
+                    <div class="code-preview">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <span class="code-title">Quick Start</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">const { createServer } = require('@payportal/portal');
+
+const server = createServer({
+  port: 3000,
+  apiKey: 'your-secret-key',
+  chains: [
+    {
+      chainId: 1,
+      name: 'Ethereum',
+      symbol: 'ETH',
+      rpcUrl: 'https://eth-rpc.com'
+    },
+    {
+      chainId: 101,
+      name: 'Solana',
+      symbol: 'SOL',
+      rpcUrl: 'https://api.mainnet-beta.solana.com',
+      type: 'solana'
+    }
+  ]
+});
+
+server.start();</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- $PP Token Integration -->
+    <section class="section token-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">$PP Token Integration</h2>
+            </div>
+            <div class="content-grid reverse">
+                <div class="content-visual">
+                    <div class="token-visual">
+                        <div class="token-card">
+                            <div class="token-header">
+                                <span class="token-symbol">$PP</span>
+                                <span class="token-badge">Native Token</span>
+                            </div>
+                            <div class="token-stats">
+                                <div class="token-stat">
+                                    <span class="stat-label">Chain</span>
+                                    <span class="stat-value">Solana</span>
+                                </div>
+                                <div class="token-stat">
+                                    <span class="stat-label">Decimals</span>
+                                    <span class="stat-value">6</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="discount-tiers">
+                            <h3>Holder Discount Tiers</h3>
+                            <div class="tier-list">
+                                <div class="tier-item" data-tier="diamond">
+                                    <span class="tier-name">Diamond</span>
+                                    <span class="tier-amount">1M+ $PP</span>
+                                    <span class="tier-discount">50% OFF</span>
+                                </div>
+                                <div class="tier-item" data-tier="platinum">
+                                    <span class="tier-name">Platinum</span>
+                                    <span class="tier-amount">500K+ $PP</span>
+                                    <span class="tier-discount">30% OFF</span>
+                                </div>
+                                <div class="tier-item" data-tier="gold">
+                                    <span class="tier-name">Gold</span>
+                                    <span class="tier-amount">100K+ $PP</span>
+                                    <span class="tier-discount">20% OFF</span>
+                                </div>
+                                <div class="tier-item" data-tier="silver">
+                                    <span class="tier-name">Silver</span>
+                                    <span class="tier-amount">10K+ $PP</span>
+                                    <span class="tier-discount">10% OFF</span>
+                                </div>
+                                <div class="tier-item" data-tier="bronze">
+                                    <span class="tier-name">Bronze</span>
+                                    <span class="tier-amount">1K+ $PP</span>
+                                    <span class="tier-discount">5% OFF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-text">
+                    <p class="lead">
+                        Pay Portal features <strong>native $PP token integration</strong>, providing exclusive benefits to token holders and creating real utility for the $PP ecosystem.
+                    </p>
+                    <h3>Payment Discounts</h3>
+                    <p>
+                        When customers pay with $PP tokens, they automatically receive a <strong>10% discount</strong> on all payments. This incentivizes adoption and creates natural demand for the token.
+                    </p>
+                    <h3>Holder Discounts</h3>
+                    <p>
+                        Users holding $PP tokens in their wallet receive additional discounts based on their balance. The more $PP you hold, the bigger your discount—up to 50% off for Diamond tier holders.
+                    </p>
+                    <p>
+                        Discounts are automatically calculated and applied when creating payment links. The system checks the customer's wallet balance and applies the appropriate tier discount in real-time.
+                    </p>
+                    <div class="code-snippet">
+                        <div class="code-header">
+                            <span class="code-title">Discount Configuration</span>
+                        </div>
+                        <pre><code class="language-javascript">const server = createServer({
+  // ... other config
+  portalToken: {
+    rpcUrl: 'https://api.mainnet-beta.solana.com',
+    enableTokenPayments: true,
+    tokenPaymentDiscount: 10, // 10% off when paying with $PP
+    enableHolderDiscounts: true,
+    discountTiers: [
+      { minBalance: 1_000_000, discountPercent: 50, name: 'Diamond' },
+      { minBalance: 500_000, discountPercent: 30, name: 'Platinum' },
+      { minBalance: 100_000, discountPercent: 20, name: 'Gold' },
+      { minBalance: 10_000, discountPercent: 10, name: 'Silver' },
+      { minBalance: 1_000, discountPercent: 5, name: 'Bronze' }
+    ]
+  }
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Invest in $PP -->
+    <section class="section invest-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Why Invest in $PP?</h2>
+            </div>
+            <div class="invest-grid">
+                <div class="invest-card">
+                    <div class="invest-icon">💎</div>
+                    <h3>Real Utility</h3>
+                    <p>$PP isn't just a token—it's the native currency of a production-ready payment gateway. Every merchant using Pay Portal creates demand for $PP through discounts and payment options.</p>
+                </div>
+                <div class="invest-card">
+                    <div class="invest-icon">📈</div>
+                    <h3>Growing Ecosystem</h3>
+                    <p>As more merchants adopt Pay Portal, the utility and value of $PP increases. Each new integration creates more use cases and demand for the token.</p>
+                </div>
+                <div class="invest-card">
+                    <div class="invest-icon">🎯</div>
+                    <h3>Holder Benefits</h3>
+                    <p>Token holders receive automatic discounts on all payments—up to 50% off for Diamond tier. This creates a strong incentive to hold and accumulate $PP.</p>
+                </div>
+                <div class="invest-card">
+                    <div class="invest-icon">🔐</div>
+                    <h3>Self-Hosted Model</h3>
+                    <p>Unlike centralized payment processors, Pay Portal is self-hosted. Merchants control their own infrastructure, creating a decentralized ecosystem powered by $PP.</p>
+                </div>
+                <div class="invest-card">
+                    <div class="invest-icon">⚡</div>
+                    <h3>Multi-Chain Support</h3>
+                    <p>Pay Portal works across Ethereum, Solana, and other major chains. $PP serves as the universal discount token across all supported networks.</p>
+                </div>
+                <div class="invest-card">
+                    <div class="invest-icon">🚀</div>
+                    <h3>Early Adoption</h3>
+                    <p>Get in early on a token with real utility and a working product. Pay Portal is production-ready and actively being used by merchants today.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section how-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">How It Works</h2>
+            </div>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Create Payment Link</h3>
+                        <p>Merchants create payment links via API or admin panel, specifying price, currency, and destination URL.</p>
+                        <div class="code-inline">
+                            <pre><code>POST /api/links
+{
+  "targetUrl": "https://example.com/premium",
+  "price": { "amount": "0.01", "tokenSymbol": "ETH", "chainId": 1 },
+  "recipientAddress": "0x..."
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Customer Visits Link</h3>
+                        <p>Customer visits the payment link. Server returns HTTP 402 with payment details and QR code.</p>
+                        <div class="code-inline">
+                            <pre><code>GET /pay/abc123
+→ 402 Payment Required
+{
+  "protocol": "402-payportal-v1",
+  "payment": {
+    "amount": "0.01",
+    "tokenSymbol": "ETH",
+    "recipient": "0x..."
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Customer Pays</h3>
+                        <p>Customer scans QR code or pays manually. Payment is sent directly to merchant's wallet on-chain.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Automatic Verification</h3>
+                        <p>Customer submits transaction hash. Server verifies payment on-chain and grants access.</p>
+                        <div class="code-inline">
+                            <pre><code>POST /pay/abc123/confirm
+{ "txHash": "0x..." }
+→ Payment verified ✅
+→ 302 Redirect to target URL</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Key Features</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-card-icon">🔗</div>
+                    <h3>Payment Links</h3>
+                    <p>Create unique payment links with automatic verification. Support for one-time payments, usage limits, and expiration dates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">💱</div>
+                    <h3>Multi-Currency</h3>
+                    <p>Accept multiple tokens on a single payment link. Customers can choose their preferred currency—ETH, SOL, USDC, or $PP.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">🔄</div>
+                    <h3>Subscriptions</h3>
+                    <p>Recurring payment links with automatic billing cycles. Support for monthly, weekly, or custom intervals with trial periods.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">📱</div>
+                    <h3>QR Codes</h3>
+                    <p>Generate QR codes with wallet deep links. Compatible with Solana Pay and EIP-681 for seamless mobile payments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">🔔</div>
+                    <h3>Webhooks</h3>
+                    <p>Real-time notifications for payment events. Get notified when payments are confirmed, pending, or failed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">⛓️</div>
+                    <h3>Multi-Chain</h3>
+                    <p>Support for Ethereum, Polygon, Solana, and any EVM-compatible chain. Add multiple chains to a single server instance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples with Tabs -->
+    <section class="section code-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2 class="section-title">Get Started</h2>
+            </div>
+            <div class="code-tabs-container">
+                <div class="code-tabs-nav">
+                    <button class="code-tab active" data-tab="install">
+                        <span class="tab-icon">📦</span>
+                        <span>Install</span>
+                    </button>
+                    <button class="code-tab" data-tab="cli">
+                        <span class="tab-icon">⚡</span>
+                        <span>CLI</span>
+                    </button>
+                    <button class="code-tab" data-tab="payment">
+                        <span class="tab-icon">💳</span>
+                        <span>Payment Link</span>
+                    </button>
+                    <button class="code-tab" data-tab="multi">
+                        <span class="tab-icon">💱</span>
+                        <span>Multi-Currency</span>
+                    </button>
+                    <button class="code-tab" data-tab="subscription">
+                        <span class="tab-icon">🔄</span>
+                        <span>Subscription</span>
+                    </button>
+                </div>
+                <div class="code-tabs-content">
+                    <div class="code-tab-panel active" data-panel="install">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="code-title">Installation</span>
+                                <button class="code-copy" data-copy="install">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">npm install @payportal/portal</code></pre>
+                        </div>
+                    </div>
+                    <div class="code-tab-panel" data-panel="cli">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="code-title">CLI Usage</span>
+                                <button class="code-copy" data-copy="cli">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Start with Ethereum and Solana
+npx portal \
+  --chain 1:Ethereum:ETH:https://eth-rpc.com \
+  --solana https://api.mainnet-beta.solana.com \
+  --api-key your-secret-key</code></pre>
+                        </div>
+                    </div>
+                    <div class="code-tab-panel" data-panel="payment">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="code-title">Create Payment Link</span>
+                                <button class="code-copy" data-copy="payment">Copy</button>
+                            </div>
+                            <pre><code class="language-javascript">const response = await fetch('http://localhost:3000/api/links', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'your-secret-key'
+  },
+  body: JSON.stringify({
+    targetUrl: 'https://example.com/premium-content',
+    price: {
+      amount: '0.01',
+      tokenSymbol: 'ETH',
+      chainId: 1
+    },
+    recipientAddress: '0xYourWalletAddress',
+    description: 'Premium content access',
+    maxUses: 100
+  })
+});
+
+const { link } = await response.json();
+console.log('Payment link:', link.url);</code></pre>
+                        </div>
+                    </div>
+                    <div class="code-tab-panel" data-panel="multi">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="code-title">Multi-Currency Payment Link</span>
+                                <button class="code-copy" data-copy="multi">Copy</button>
+                            </div>
+                            <pre><code class="language-javascript">const response = await fetch('http://localhost:3000/api/links', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'your-secret-key'
+  },
+  body: JSON.stringify({
+    targetUrl: 'https://example.com/product',
+    price: {
+      amount: '0.01',
+      tokenSymbol: 'ETH',
+      chainId: 1
+    },
+    paymentOptions: [
+      {
+        amount: '0.5',
+        tokenSymbol: 'SOL',
+        chainId: 101,
+        recipientAddress: 'SolanaWalletAddress'
+      },
+      {
+        amount: '10',
+        tokenSymbol: 'USDC',
+        chainId: 1,
+        recipientAddress: '0xYourWalletAddress'
+      }
+    ],
+    recipientAddress: '0xYourWalletAddress'
+  })
+});</code></pre>
+                        </div>
+                    </div>
+                    <div class="code-tab-panel" data-panel="subscription">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="code-title">Subscription Link</span>
+                                <button class="code-copy" data-copy="subscription">Copy</button>
+                            </div>
+                            <pre><code class="language-javascript">const response = await fetch('http://localhost:3000/api/links', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'your-secret-key'
+  },
+  body: JSON.stringify({
+    targetUrl: 'https://example.com/subscription',
+    price: {
+      amount: '0.1',
+      tokenSymbol: 'ETH',
+      chainId: 1
+    },
+    recipientAddress: '0xYourWalletAddress',
+    subscription: {
+      interval: 'month',
+      intervalCount: 1,
+      gracePeriodHours: 24,
+      maxCycles: 12,
+      trialDays: 7
+    }
+  })
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Details -->
+    <section class="section tech-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2 class="section-title">Technical Architecture</h2>
+            </div>
+            <div class="tech-content">
+                <div class="tech-item">
+                    <h3>HTTP 402/403 Protocol</h3>
+                    <p>Pay Portal implements the standard HTTP 402 Payment Required protocol. When a customer visits a payment link, the server returns a 402 status with payment details. After payment verification, subsequent requests return 302 redirects to the target URL.</p>
+                </div>
+                <div class="tech-item">
+                    <h3>Blockchain Verification</h3>
+                    <p>All payments are verified on-chain using RPC nodes. The server checks transaction confirmations, validates amounts, and verifies recipient addresses. Support for both EVM chains (via eth_getTransactionByHash) and Solana (via getTransaction).</p>
+                </div>
+                <div class="tech-item">
+                    <h3>Self-Hosted Architecture</h3>
+                    <p>Each merchant runs their own Pay Portal server instance. You control your RPC endpoints, API keys, and infrastructure. No central authority, no platform fees—just direct blockchain payments.</p>
+                </div>
+                <div class="tech-item">
+                    <h3>Storage & Webhooks</h3>
+                    <p>Payment links and transactions are stored in-memory by default (with optional database integration). Webhooks provide real-time notifications for payment events, subscription renewals, and link status changes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Start accepting crypto payments today with Pay Portal. Self-hosted, production-ready, and powered by $PP.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary" id="github-cta">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                    <a href="#" class="btn btn-secondary" id="pumpfun-cta">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 7h2v8H7V7zm4 4h2v4h-2v-4zm4-2h2v10h-2V9z"/>
+                        </svg>
+                        View Chart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon">$PP</span>
+                    <span class="logo-text">Pay Portal</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#" id="footer-x-link">X (Twitter)</a>
+                    <a href="#" id="footer-github-link">GitHub</a>
+                    <a href="#" id="footer-pumpfun-link">Pump.fun</a>
+                </div>
+                <div class="footer-legal">
+                    <p>© 2024 Pay Portal. All rights reserved.</p>
+                    <p>MIT License - Self-hosted payment gateway</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
