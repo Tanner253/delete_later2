@@ -144,17 +144,269 @@ app.get('/swagger', (req, res) => {
   res.send(swaggerHtml);
 });
 
+// Function to generate Swagger spec dynamically
+function generateSwaggerSpec(baseUrl) {
+  return {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "PayPortal Demo API",
+      "version": "1.0.0",
+      "description": "Self-hosted blockchain payment gateway with 402/403 protocol support",
+      "contact": {
+        "name": "PayPortal",
+        "url": "https://github.com/PayPortalWeb3/PP"
+      },
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "servers": [
+      {
+        "url": baseUrl,
+        "description": "Demo Server (Mock Mode - All payments auto-confirm)"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Public",
+        "description": "Public endpoints (no authentication required)"
+      },
+      {
+        "name": "Admin",
+        "description": "Admin endpoints (require X-API-Key header)"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "ApiKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "X-API-Key",
+          "description": "API key for admin endpoints. Demo key: `your-secret-api-key`"
+        }
+      },
+      "schemas": {
+        "PaymentLink": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "targetUrl": { "type": "string" },
+            "description": { "type": "string" },
+            "price": {
+              "type": "object",
+              "properties": {
+                "amount": { "type": "string" },
+                "tokenSymbol": { "type": "string" },
+                "chainId": { "type": "integer" }
+              }
+            },
+            "recipientAddress": { "type": "string" },
+            "createdAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "Payment": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "paymentLinkId": { "type": "string" },
+            "chainId": { "type": "integer" },
+            "txHash": { "type": "string" },
+            "fromAddress": { "type": "string" },
+            "amount": { "type": "string" },
+            "confirmed": { "type": "boolean" },
+            "createdAt": { "type": "string", "format": "date-time" }
+          }
+        }
+      }
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "tags": ["Public"],
+          "summary": "Get server information",
+          "responses": {
+            "200": {
+              "description": "Server info",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "version": { "type": "string" },
+                      "chains": { "type": "array" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/links": {
+        "post": {
+          "tags": ["Admin"],
+          "summary": "Create payment link",
+          "security": [{ "ApiKeyAuth": [] }],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["targetUrl", "price", "recipientAddress"],
+                  "properties": {
+                    "targetUrl": { "type": "string", "example": "https://example.com/content" },
+                    "description": { "type": "string", "example": "Premium content access" },
+                    "price": {
+                      "type": "object",
+                      "required": ["amount", "tokenSymbol", "chainId"],
+                      "properties": {
+                        "amount": { "type": "string", "example": "0.01" },
+                        "tokenSymbol": { "type": "string", "example": "ETH" },
+                        "chainId": { "type": "integer", "example": 1 }
+                      }
+                    },
+                    "recipientAddress": { "type": "string", "example": "0xYourWalletAddress" },
+                    "maxUses": { "type": "integer", "example": 100 },
+                    "expiresAt": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Payment link created",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/PaymentLink" }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": ["Admin"],
+          "summary": "List all payment links",
+          "security": [{ "ApiKeyAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "List of payment links",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/PaymentLink" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/pay/{id}": {
+        "get": {
+          "tags": ["Public"],
+          "summary": "Access payment link (returns 402 if unpaid)",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "402": {
+              "description": "Payment required",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "protocol": { "type": "string" },
+                      "payment": { "type": "object" }
+                    }
+                  }
+                }
+              }
+            },
+            "302": {
+              "description": "Redirect to target URL (payment confirmed)"
+            }
+          }
+        }
+      },
+      "/pay/{id}/confirm": {
+        "post": {
+          "tags": ["Public"],
+          "summary": "Confirm payment with transaction hash",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["txHash"],
+                  "properties": {
+                    "txHash": { 
+                      "type": "string",
+                      "example": "0xMockTransactionHash123456789",
+                      "description": "In mock mode, ANY transaction hash will be auto-confirmed!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Payment confirmed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": { "type": "boolean" },
+                      "payment": { "$ref": "#/components/schemas/Payment" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+}
+
 // Serve Swagger JSON spec
 app.get('/swagger.json', (req, res) => {
-  const swaggerPath = path.join(__dirname, 'swagger.json');
-  if (fs.existsSync(swaggerPath)) {
-    const swagger = JSON.parse(fs.readFileSync(swaggerPath, 'utf8'));
-    // Update server URL to match current request
+  try {
+    // Generate swagger spec dynamically instead of reading from file
     const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
-    swagger.servers = [{ url: `${protocol}://${req.headers.host}`, description: 'Demo server' }];
-    res.json(swagger);
-  } else {
-    res.status(404).json({ error: 'Swagger spec not found' });
+    const baseUrl = `${protocol}://${req.headers.host}`;
+    
+    const swaggerSpec = generateSwaggerSpec(baseUrl);
+    res.setHeader('Content-Type', 'application/json');
+    res.json(swaggerSpec);
+  } catch (error) {
+    console.error('Swagger generation error:', error);
+    res.status(500).json({ 
+      error: 'Failed to generate swagger spec',
+      message: error.message 
+    });
   }
 });
 

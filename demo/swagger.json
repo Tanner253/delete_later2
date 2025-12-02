@@ -1,0 +1,33 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PayPortal Demo API",
+    "version": "1.0.0",
+    "description": "Self-hosted blockchain payment gateway with 402/403 protocol support",
+    "contact": {
+      "name": "PayPortal",
+      "url": "https://github.com/PayPortalWeb3/PP"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ppweb3demo.vercel.app",
+      "description": "Demo Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Public",
+      "description": "Public endpoints (no authentication required)"
+    },
+    {
+      "name": "Admin",
+      "description": "Admin endpoints (require X-API-Key header)"
+    }
+  ]
+}
+
