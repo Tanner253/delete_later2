@@ -1401,12 +1401,17 @@ body {
     }
     
     .code-content, .code-block > div:not(.code-header) {
-        padding: 0.75rem;
+        padding: 0.75rem 0.75rem 0.75rem 1rem;
         font-size: 0.625rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
         width: 100%;
+    }
+    
+    .code-preview .code-content,
+    .code-snippet .code-content {
+        padding-left: 1rem;
     }
     
     .code-content pre, .code-block pre {
@@ -1421,7 +1426,7 @@ body {
     
     .code-inline {
         font-size: 0.625rem;
-        padding: 0.625rem;
+        padding: 0.625rem 0.75rem 0.625rem 1rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         margin-left: calc(-0.875rem - 1px);
@@ -1545,10 +1550,19 @@ body {
         box-sizing: border-box;
     }
     
+    .code-tabs-nav {
+        padding-left: 1rem;
+    }
+    
     .code-tab-panel .code-content,
     .code-tab-panel .code-block > div:not(.code-header) {
         box-sizing: border-box;
         width: 100%;
+        padding-left: 1rem;
+    }
+    
+    .code-tab-panel .code-header {
+        padding-left: 1rem;
     }
     
     .code-tabs-nav {
@@ -1726,7 +1740,7 @@ body {
     }
     
     .code-snippet .code-header {
-        padding: 0.625rem 0.75rem;
+        padding: 0.625rem 0.75rem 0.625rem 1rem;
     }
     
     .code-snippet .code-title {
@@ -1734,7 +1748,7 @@ body {
     }
     
     .code-snippet .code-content {
-        padding: 0.75rem;
+        padding: 0.75rem 0.75rem 0.75rem 1rem;
         box-sizing: border-box;
         width: 100%;
         overflow-x: auto;
@@ -1774,9 +1788,17 @@ body {
     }
     
     .code-content, .code-block > div:not(.code-header) {
-        padding: 0.625rem;
+        padding: 0.625rem 0.625rem 0.625rem 0.875rem;
         box-sizing: border-box;
         width: 100%;
+    }
+    
+    .code-tabs-nav {
+        padding-left: 0.875rem;
+    }
+    
+    .code-tab-panel .code-header {
+        padding-left: 0.875rem;
     }
     
     .code-content pre, .code-block pre {
@@ -1788,7 +1810,7 @@ body {
     }
     
     .code-inline {
-        padding: 0.5rem 0.625rem;
+        padding: 0.5rem 0.625rem 0.5rem 0.875rem;
         margin-left: calc(-0.625rem - 1px);
         margin-right: calc(-0.625rem - 1px);
         max-width: 100vw;
@@ -1815,7 +1837,7 @@ body {
     }
     
     .code-snippet .code-header {
-        padding: 0.5rem 0.625rem;
+        padding: 0.5rem 0.625rem 0.5rem 0.875rem;
     }
     
     .code-snippet .code-title {
@@ -1823,9 +1845,13 @@ body {
     }
     
     .code-snippet .code-content {
-        padding: 0.625rem;
+        padding: 0.625rem 0.625rem 0.625rem 0.875rem;
         box-sizing: border-box;
         width: 100%;
+    }
+    
+    .code-preview .code-content {
+        padding-left: 0.875rem;
     }
     
     .code-snippet pre {
