@@ -172,10 +172,11 @@ app.get('/', (req, res, next) => {
   next();
 });
 
-// Start the server
-server.start();
-
-console.log(`
+// For local development, start the server
+if (require.main === module) {
+  server.start();
+  
+  console.log(`
 📚 Resources:
    - Demo UI:          ${BASE_URL}/demo
    - API Docs:         ${BASE_URL}/swagger
@@ -197,42 +198,46 @@ console.log(`
 📖 Documentation: https://github.com/PayPortalWeb3/PP
 `);
 
-// Create a sample payment link on startup
-setTimeout(async () => {
-  try {
-    const link = await server.createPaymentLink({
-      targetUrl: 'https://example.com/premium-content',
-      price: {
-        amount: '0.01',
-        tokenSymbol: 'ETH',
-        chainId: 1,
-      },
-      recipientAddress: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
-      description: 'Sample payment link - Premium content access',
-      paymentOptions: [
-        {
-          tokenSymbol: 'SOL',
-          chainId: 101,
-          amount: '0.5',
-          recipientAddress: 'DemoSolanaAddress123456789',
+  // Create a sample payment link on startup
+  setTimeout(async () => {
+    try {
+      const link = await server.createPaymentLink({
+        targetUrl: 'https://example.com/premium-content',
+        price: {
+          amount: '0.01',
+          tokenSymbol: 'ETH',
+          chainId: 1,
         },
-        {
-          tokenSymbol: 'MATIC',
-          chainId: 137,
-          amount: '15',
-        },
-      ],
-    });
-    
-    console.log(`
+        recipientAddress: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+        description: 'Sample payment link - Premium content access',
+        paymentOptions: [
+          {
+            tokenSymbol: 'SOL',
+            chainId: 101,
+            amount: '0.5',
+            recipientAddress: 'DemoSolanaAddress123456789',
+          },
+          {
+            tokenSymbol: 'MATIC',
+            chainId: 137,
+            amount: '15',
+          },
+        ],
+      });
+      
+      console.log(`
 ✅ Sample payment link created!
    Link ID:  ${link.id}
    URL:      ${BASE_URL}/pay/${link.id}
    
    Try accessing this link in your browser or use it in the demo UI!
 `);
-  } catch (error) {
-    console.error('Error creating sample link:', error.message);
-  }
-}, 1000);
+    } catch (error) {
+      console.error('Error creating sample link:', error.message);
+    }
+  }, 1000);
+}
+
+// Export the Express app for Vercel serverless
+module.exports = app;
 
