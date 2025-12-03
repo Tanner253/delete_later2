@@ -395,24 +395,10 @@ function initCodeTabs() {
     });
 }
 
-// External links
+// External links are now set directly in HTML for reliability
+// These constants are kept for reference only
 const GITHUB_URL = 'https://github.com/PayPortalWeb3/PP';
 const X_URL = 'https://x.com/i/communities/1995741831796015176';
 const PUMPFUN_URL = 'https://pump.fun/coin/Axa4Ebtf7Q2yvyQ8dMidu6Qf17yZtsutAKEuKgdKpump';
-
-// Navigation links
-document.getElementById('x-link').href = X_URL;
-document.getElementById('github-link').href = GITHUB_URL;
-document.getElementById('pumpfun-link').href = PUMPFUN_URL;
-
-// Footer links
-document.getElementById('footer-x-link').href = X_URL;
-document.getElementById('footer-github-link').href = GITHUB_URL;
-document.getElementById('footer-pumpfun-link').href = PUMPFUN_URL;
-
-// CTA buttons
-document.getElementById('github-cta').href = GITHUB_URL;
-document.getElementById('pumpfun-cta').href = PUMPFUN_URL;
-
-// Remove click event listeners since we're using actual hrefs now
-// All external links are now configured - no click prevention needed
+const DEMO_URL = 'https://ppweb3demo.vercel.app/demo';
+const MAIN_SITE_URL = 'https://www.ppweb3.xyz/';
